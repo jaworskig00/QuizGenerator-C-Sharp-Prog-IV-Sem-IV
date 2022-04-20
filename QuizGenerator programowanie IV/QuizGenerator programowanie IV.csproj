@@ -99,6 +99,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modules\Answer.cs" />
+    <Compile Include="Modules\FileHandling.cs" />
+    <Compile Include="Modules\Question.cs" />
+    <Compile Include="Modules\Quiz.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
