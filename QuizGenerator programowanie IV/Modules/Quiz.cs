@@ -14,7 +14,12 @@ namespace QuizGenerator_programowanie_IV.Modules
         public Quiz(string quizName, List<Question> questions)
         {
             this.QuizName = quizName;
-            this.Questions = questions;
+            this.Questions = new List<Question>();
+
+            foreach (Question question in questions)
+            {
+                this.Questions.Add(question);
+            }
         }
     }
 }
