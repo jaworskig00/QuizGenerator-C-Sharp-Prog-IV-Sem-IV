@@ -24,5 +24,36 @@ namespace QuizGenerator_programowanie_IV
         {
             InitializeComponent();
         }
+
+
+        // NAWIGACJA
+        // 1. Menu View
+        private void AddQuiz_ButtonClick(object sender, RoutedEventArgs e)
+        {
+            MenuView.Visibility = Visibility.Collapsed;
+            AddView.Visibility = Visibility.Visible;
+            ModifyView.Visibility = Visibility.Collapsed;
+        }
+
+        private void ModifyQuiz_ButtonClick(object sender, RoutedEventArgs e)
+        {
+            MenuView.Visibility = Visibility.Collapsed;
+            AddView.Visibility = Visibility.Collapsed;
+            ModifyView.Visibility = Visibility.Visible;
+        }
+
+        private void Exit_ButtonClick(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void GoToMenu_ButtonClick(object sender, RoutedEventArgs e)
+        {
+            MenuView.Visibility = Visibility.Visible;
+            AddView.Visibility = Visibility.Collapsed;
+            ModifyView.Visibility = Visibility.Collapsed;
+        }
+
+        // 2. Add Quiz View
     }
 }

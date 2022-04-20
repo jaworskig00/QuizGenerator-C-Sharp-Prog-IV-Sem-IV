@@ -7,7 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="450" ResizeMode="NoResize">
     <Grid>
-        <Grid Grid.Row="0">
+        <Grid 
+            Grid.Row="0"
+            Name="MenuView">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
@@ -24,7 +26,7 @@
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
                 FontSize="30"
-                Text="Witaj w quiz maker!"
+                Text="Witaj w quiz generator!"
                 />
 
             <Button
@@ -34,6 +36,7 @@
                 MaxHeight="75"
                 Content="Stwórz nowy quiz"
                 FontSize="30"
+                Click="AddQuiz_ButtonClick"
                 />
 
             <Button
@@ -43,6 +46,7 @@
                 MaxHeight="75"
                 Content="Zmodyfikuj istniejący quiz"
                 FontSize="30"
+                Click="ModifyQuiz_ButtonClick"
                 />
 
             <Button
@@ -53,11 +57,15 @@
                 MaxHeight="50"
                 Content="Wyjdź z programu"
                 FontSize="20"
+                Click="Exit_ButtonClick"
                 />
 
         </Grid>
 
-        <Grid Grid.Row="0" Visibility="Collapsed">
+        <Grid 
+            Grid.Row="0" 
+            Name="AddView"
+            Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
@@ -245,10 +253,14 @@
                 MaxHeight="50"
                 Content="Wróć do menu"
                 FontSize="20"
+                Click="GoToMenu_ButtonClick"
                 />
         </Grid>
 
-        <Grid Grid.Row="0" Visibility="Collapsed">
+        <Grid 
+            Grid.Row="0" 
+            Name="ModifyView"
+            Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
@@ -310,6 +322,7 @@
                 MaxHeight="50"
                 Content="Wróć do menu"
                 FontSize="20"
+                Click="GoToMenu_ButtonClick"
                 />
         </Grid>
     </Grid>
