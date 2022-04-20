@@ -8,17 +8,22 @@ namespace QuizGenerator_programowanie_IV.Modules
 {
     class Question
     {
-        public int QuistionNumber { get; set; }
+        public int QuestionNumber { get; set; }
         public string QuestionText { get; set; }
         public int Time { get; set; }
         public List<Answer> Answers { get; set; }
 
         public Question(int questionNumber, string questionText, int time, List<Answer> answers)
         {
-            this.QuistionNumber = questionNumber;
+            this.QuestionNumber = questionNumber;
             this.QuestionText = questionText;
             this.Time = time;
-            this.Answers = answers;
+            this.Answers = new List<Answer>();
+
+            foreach (Answer answer in answers)
+            {
+                this.Answers.Add(answer);
+            }
         }
     }
 }

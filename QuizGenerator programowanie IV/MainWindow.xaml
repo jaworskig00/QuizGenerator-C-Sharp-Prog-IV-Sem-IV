@@ -7,7 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="450" ResizeMode="NoResize">
     <Grid>
-        <Grid Grid.Row="0">
+        <!--#region Menu View-->
+        <Grid 
+            Grid.Row="0"
+            Name="MenuView">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
@@ -24,7 +27,7 @@
                 VerticalAlignment="Center"
                 HorizontalAlignment="Center"
                 FontSize="30"
-                Text="Witaj w quiz maker!"
+                Text="Witaj w quiz generator!"
                 />
 
             <Button
@@ -34,6 +37,7 @@
                 MaxHeight="75"
                 Content="Stwórz nowy quiz"
                 FontSize="30"
+                Click="AddQuiz_ButtonClick"
                 />
 
             <Button
@@ -43,6 +47,7 @@
                 MaxHeight="75"
                 Content="Zmodyfikuj istniejący quiz"
                 FontSize="30"
+                Click="ModifyQuiz_ButtonClick"
                 />
 
             <Button
@@ -53,11 +58,17 @@
                 MaxHeight="50"
                 Content="Wyjdź z programu"
                 FontSize="20"
+                Click="Exit_ButtonClick"
                 />
 
         </Grid>
+        <!--#endregion-->
 
-        <Grid Grid.Row="0" Visibility="Collapsed">
+        <!--#region Add Quiz View-->
+        <Grid 
+            Grid.Row="0" 
+            Name="AddView"
+            Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
@@ -76,6 +87,7 @@
             </Grid.RowDefinitions>
 
             <TextBox
+                Name="QuizName"
                 Grid.Row="0"
                 Width="350"
                 MaxWidth="350"
@@ -88,6 +100,7 @@
                 />
 
             <TextBox
+                Name="QuestionText"
                 Grid.Row="1"
                 Width="350"
                 MaxWidth="350"
@@ -105,20 +118,22 @@
                 HorizontalAlignment="Center">
 
                 <TextBox
-                Width="350"
-                MaxWidth="350"
-                MaxHeight="75"
-                Text="Odpowiedź A"
-                FontSize="20"
-                HorizontalAlignment="Left"
-                TextWrapping="Wrap"
-                Margin="0,0,20,0"
-                />
+                    Name="AnswerA"
+                    Width="350"
+                    MaxWidth="350"
+                    MaxHeight="75"
+                    Text="Odpowiedź A"
+                    FontSize="20"
+                    HorizontalAlignment="Left"
+                    TextWrapping="Wrap"
+                    Margin="0,0,20,0"
+                    />
 
                 <CheckBox
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                />
+                    Name="IsRightA"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    />
             </StackPanel>
 
             <StackPanel 
@@ -127,20 +142,22 @@
                 HorizontalAlignment="Center">
 
                 <TextBox
-                Width="350"
-                MaxWidth="350"
-                MaxHeight="75"
-                Text="Odpowiedź B"
-                FontSize="20"
-                HorizontalAlignment="Left"
-                TextWrapping="Wrap"
-                Margin="0,0,20,0"
-                />
+                    Name="AnswerB"
+                    Width="350"
+                    MaxWidth="350"
+                    MaxHeight="75"
+                    Text="Odpowiedź B"
+                    FontSize="20"
+                    HorizontalAlignment="Left"
+                    TextWrapping="Wrap"
+                    Margin="0,0,20,0"
+                    />
 
                 <CheckBox
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                />
+                    Name="IsRightB"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    />
             </StackPanel>
 
             <StackPanel 
@@ -149,20 +166,22 @@
                 HorizontalAlignment="Center">
 
                 <TextBox
-                Width="350"
-                MaxWidth="350"
-                MaxHeight="75"
-                Text="Odpowiedź C"
-                FontSize="20"
-                HorizontalAlignment="Left"
-                TextWrapping="Wrap"
-                Margin="0,0,20,0"
-                />
+                    Name="AnswerC"
+                    Width="350"
+                    MaxWidth="350"
+                    MaxHeight="75"
+                    Text="Odpowiedź C"
+                    FontSize="20"
+                    HorizontalAlignment="Left"
+                    TextWrapping="Wrap"
+                    Margin="0,0,20,0"
+                    />
 
                 <CheckBox
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                />
+                    Name="IsRightC"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    />
             </StackPanel>
 
             <StackPanel 
@@ -171,20 +190,22 @@
                 HorizontalAlignment="Center">
 
                 <TextBox
-                Width="350"
-                MaxWidth="350"
-                MaxHeight="75"
-                Text="Odpowiedź D"
-                FontSize="20"
-                HorizontalAlignment="Left"
-                TextWrapping="Wrap"
-                Margin="0,0,20,0"
-                />
+                    Name="AnswerD"
+                    Width="350"
+                    MaxWidth="350"
+                    MaxHeight="75"
+                    Text="Odpowiedź D"
+                    FontSize="20"
+                    HorizontalAlignment="Left"
+                    TextWrapping="Wrap"
+                    Margin="0,0,20,0"
+                    />
 
                 <CheckBox
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                />
+                    Name="IsRightD"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    />
             </StackPanel>
 
             <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -195,6 +216,7 @@
                     VerticalAlignment="Center"
                     Margin="0,0,10,0"/>
                 <TextBox
+                    Name="QuestionTime"
                     MaxWidth="100"
                     Text="10"
                     FontSize="20"
@@ -208,23 +230,25 @@
                 Orientation="Horizontal" 
                 HorizontalAlignment="Center">
                 <Button
-                Width="100"
-                Height="45"
-                Content="Wstecz"
-                Margin="0,0,10,0"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                FontSize="25"
-                />
+                    Width="100"
+                    Height="45"
+                    Content="Wstecz"
+                    Margin="0,0,10,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontSize="25"
+                    Click="PreviousQuestion_ButtonClick"
+                    />
 
                 <Button
-                Width="100"
-                Height="45"
-                Content="Dalej"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                FontSize="25"
-                />
+                    Width="100"
+                    Height="45"
+                    Content="Dalej"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    FontSize="25"
+                    Click="NextQuestion_ButtonClick"
+                    />
             </StackPanel>
 
             <Button
@@ -235,6 +259,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 FontSize="25"
+                Click="SaveQuiz_ButtonClick"
                 />
 
             <Button
@@ -245,10 +270,16 @@
                 MaxHeight="50"
                 Content="Wróć do menu"
                 FontSize="20"
+                Click="GoToMenu_ButtonClick"
                 />
         </Grid>
+        <!--#endregion-->
 
-        <Grid Grid.Row="0" Visibility="Collapsed">
+        <!--#region Modify Quiz View-->
+        <Grid 
+            Grid.Row="0" 
+            Name="ModifyView"
+            Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
@@ -310,7 +341,9 @@
                 MaxHeight="50"
                 Content="Wróć do menu"
                 FontSize="20"
+                Click="GoToMenu_ButtonClick"
                 />
         </Grid>
+        <!--#endregion-->
     </Grid>
 </Window>
