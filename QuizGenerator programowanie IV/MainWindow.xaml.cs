@@ -22,17 +22,32 @@ namespace QuizGenerator_programowanie_IV
     public partial class MainWindow : Window
     {
         #region ZMIENNE
-        FileHandling fileHandle = new FileHandling();
-        List<Quiz> quizzes = new List<Quiz>();
-        List<Answer> answers = new List<Answer>();
-        List<Question> questions = new List<Question>();
-        int questionIndex = 0;
+
+        FileHandling fileHandle;
+        CezarEncryption encryptionHanlde;
+
+        string previousLocation;
+
+        List<Quiz> quizzes;
+        List<Answer> answers;
+        List<Question> questions;
+        int questionIndex;
 
         #endregion
 
         public MainWindow()
         {
             InitializeComponent();
+
+            fileHandle = new FileHandling();
+            encryptionHanlde = new CezarEncryption();
+
+            previousLocation = "";
+
+            quizzes = new List<Quiz>();
+            answers = new List<Answer>();
+            questions = new List<Question>();
+            questionIndex = 0;
 
             UpdateQuizListBox();
         }
@@ -44,6 +59,9 @@ namespace QuizGenerator_programowanie_IV
             MenuView.Visibility = Visibility.Collapsed;
             AddView.Visibility = Visibility.Visible;
             ModifyView.Visibility = Visibility.Collapsed;
+
+            questions.Clear();
+            questionIndex = 0;
         }
 
         private void ModifyQuiz_ButtonClick(object sender, RoutedEventArgs e)
@@ -68,7 +86,7 @@ namespace QuizGenerator_programowanie_IV
 
         #endregion
 
-        #region DODAWANIE I EDYCJA PYTAŃ
+        #region DODAWANIE PYTAŃ
 
         private void NextQuestion_ButtonClick(object sender, RoutedEventArgs e)
         {
@@ -166,7 +184,9 @@ namespace QuizGenerator_programowanie_IV
         {
             QuizListBox.Items.Clear();
             quizzes.Clear();
+
             quizzes = fileHandle.ReadFromFile();
+
             foreach (Quiz quiz in quizzes)
             {
                 QuizListBox.Items.Add(quiz.QuizName);
