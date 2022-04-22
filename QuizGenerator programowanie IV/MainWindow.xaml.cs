@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 using QuizGenerator_programowanie_IV.Modules;
 
 namespace QuizGenerator_programowanie_IV
@@ -27,6 +28,7 @@ namespace QuizGenerator_programowanie_IV
         CezarEncryption encryptionHanlde;
 
         string previousLocation;
+        string quizOldName;
 
         List<Quiz> quizzes;
         List<Answer> answers;
@@ -43,6 +45,7 @@ namespace QuizGenerator_programowanie_IV
             encryptionHanlde = new CezarEncryption();
 
             previousLocation = "";
+            quizOldName = "";
 
             quizzes = new List<Quiz>();
             answers = new List<Answer>();
@@ -60,8 +63,40 @@ namespace QuizGenerator_programowanie_IV
             AddView.Visibility = Visibility.Visible;
             ModifyView.Visibility = Visibility.Collapsed;
 
+            ClearView();
+
             questions.Clear();
             questionIndex = 0;
+
+            previousLocation = ((Button)sender).CommandParameter?.ToString();
+
+            if (previousLocation == "Modify")
+            {
+                quizOldName = quizzes[QuizListBox.SelectedIndex].QuizName;
+                if (quizzes[QuizListBox.SelectedIndex].Questions.Count <= 0)
+                {
+                    QuizName.Text = quizOldName;
+                }
+                else
+                {
+                    foreach (Question question in quizzes[QuizListBox.SelectedIndex].Questions)
+                    {
+                        questions.Add(question);
+                    }
+
+                    QuizName.Text = quizOldName;
+                    QuestionText.Text = questions[questionIndex].QuestionText;
+                    AnswerA.Text = questions[questionIndex].Answers[0].AnswerText;
+                    AnswerB.Text = questions[questionIndex].Answers[1].AnswerText;
+                    AnswerC.Text = questions[questionIndex].Answers[2].AnswerText;
+                    AnswerD.Text = questions[questionIndex].Answers[3].AnswerText;
+                    IsRightA.IsChecked = questions[questionIndex].Answers[0].IsCorrect;
+                    IsRightB.IsChecked = questions[questionIndex].Answers[1].IsCorrect;
+                    IsRightC.IsChecked = questions[questionIndex].Answers[2].IsCorrect;
+                    IsRightD.IsChecked = questions[questionIndex].Answers[3].IsCorrect;
+                    QuestionTime.Text = questions[questionIndex].Time.ToString();
+                }
+            }
         }
 
         private void ModifyQuiz_ButtonClick(object sender, RoutedEventArgs e)
@@ -86,7 +121,7 @@ namespace QuizGenerator_programowanie_IV
 
         #endregion
 
-        #region DODAWANIE PYTAŃ
+        #region DODAWANIE I EDYCJA PYTAŃ
 
         private void NextQuestion_ButtonClick(object sender, RoutedEventArgs e)
         {
@@ -97,18 +132,23 @@ namespace QuizGenerator_programowanie_IV
             // ustawienie pól na wartości bierzącego pytania lub domyślne
 
             questionIndex += 1;
-            bool ifCurrentQuestionExists = questions.Any(q => q.QuestionNumber == questionIndex);
 
-            QuestionText.Text = ifCurrentQuestionExists ? questions[questionIndex].QuestionText : "Treść pytania";
-            AnswerA.Text = ifCurrentQuestionExists ? questions[questionIndex].Answers[0].AnswerText : "Odpowiedź A";
-            AnswerB.Text = ifCurrentQuestionExists ? questions[questionIndex].Answers[1].AnswerText : "Odpowiedź B";
-            AnswerC.Text = ifCurrentQuestionExists ? questions[questionIndex].Answers[2].AnswerText : "Odpowiedź C";
-            AnswerD.Text = ifCurrentQuestionExists ? questions[questionIndex].Answers[3].AnswerText : "Odpowiedź D";
-            IsRightA.IsChecked = ifCurrentQuestionExists ? questions[questionIndex].Answers[0].IsCorrect : false;
-            IsRightB.IsChecked = ifCurrentQuestionExists ? questions[questionIndex].Answers[1].IsCorrect : false;
-            IsRightC.IsChecked = ifCurrentQuestionExists ? questions[questionIndex].Answers[2].IsCorrect : false;
-            IsRightD.IsChecked = ifCurrentQuestionExists ? questions[questionIndex].Answers[3].IsCorrect : false;
-            QuestionTime.Text = ifCurrentQuestionExists ? questions[questionIndex].Time.ToString() : "10";
+            if (questions.Any(q => q.QuestionNumber == questionIndex))
+            {
+                QuestionText.Text = questions[questionIndex].QuestionText;
+                AnswerA.Text = questions[questionIndex].Answers[0].AnswerText;
+                AnswerB.Text = questions[questionIndex].Answers[1].AnswerText;
+                AnswerC.Text = questions[questionIndex].Answers[2].AnswerText;
+                AnswerD.Text = questions[questionIndex].Answers[3].AnswerText;
+                IsRightA.IsChecked = questions[questionIndex].Answers[0].IsCorrect;
+                IsRightB.IsChecked = questions[questionIndex].Answers[1].IsCorrect;
+                IsRightC.IsChecked = questions[questionIndex].Answers[2].IsCorrect;
+                IsRightD.IsChecked = questions[questionIndex].Answers[3].IsCorrect;
+                QuestionTime.Text = questions[questionIndex].Time.ToString();
+            } else
+            {
+                ClearView();
+            }
         }
 
         private void PreviousQuestion_ButtonClick(object sender, RoutedEventArgs e)
@@ -142,12 +182,32 @@ namespace QuizGenerator_programowanie_IV
             QuestionTime.Text = questions[questionIndex].Time.ToString();
         }
 
+        private void DeleteQuiz_ButtonClick(object sender, RoutedEventArgs e)
+        {
+            string[] fileToDelete = Directory.GetFiles("C:\\Users\\2000g\\OneDrive\\Pulpit\\QUIZY\\", $"{quizzes[QuizListBox.SelectedIndex].QuizName}.txt");
+            if (fileToDelete.Length > 1 && fileToDelete.Length < 0)
+            {
+                MessageBox.Show("We are having troubles...");
+            }
+            File.Delete(fileToDelete[0]);
+
+            UpdateQuizListBox();
+        }
+
         #endregion
 
         #region ZAPIS QUIZU DO PLIKU
         private void SaveQuiz_ButtonClick(object sender, RoutedEventArgs e)
         {
+            SaveQuestion();
+
+            if (previousLocation == "Modify")
+            {
+                File.Move(quizOldName, QuizName.Text);
+            }
+
             fileHandle.SaveToFile(new Quiz(QuizName.Text, questions));
+
             UpdateQuizListBox();
         }
 
@@ -179,6 +239,24 @@ namespace QuizGenerator_programowanie_IV
                 questions.Add(new Question(questionIndex, QuestionText.Text, Convert.ToInt32(QuestionTime.Text), answers));
             }
         }
+
+        public void ClearView()
+        {
+            if (previousLocation == "Menu")
+            {
+                QuizName.Text = "Nazwa quizu";
+            }
+            QuestionText.Text = "Treść pytania";
+            AnswerA.Text = "Odpowiedź A";
+            AnswerB.Text = "Odpowiedź B";
+            AnswerC.Text = "Odpowiedź C";
+            AnswerD.Text = "Odpowiedź D";
+            IsRightA.IsChecked = false;
+            IsRightB.IsChecked = false;
+            IsRightC.IsChecked = false;
+            IsRightD.IsChecked = false;
+            QuestionTime.Text = "10";
+        }
         
         public void UpdateQuizListBox()
         {
@@ -186,6 +264,16 @@ namespace QuizGenerator_programowanie_IV
             quizzes.Clear();
 
             quizzes = fileHandle.ReadFromFile();
+
+            if (quizzes.Count <= 0)
+            {
+                EditButton.IsEnabled = false;
+                DeleteButton.IsEnabled = false;
+            } else
+            {
+                EditButton.IsEnabled = true;
+                DeleteButton.IsEnabled = true;
+            }
 
             foreach (Quiz quiz in quizzes)
             {

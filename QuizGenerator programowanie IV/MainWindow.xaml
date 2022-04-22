@@ -38,6 +38,7 @@
                 Content="Stwórz nowy quiz"
                 FontSize="30"
                 Click="AddQuiz_ButtonClick"
+                CommandParameter="Add"
                 />
 
             <Button
@@ -315,6 +316,7 @@
                 HorizontalAlignment="Center">
 
                 <Button
+                    Name="EditButton"
                     Grid.Column="0"
                     Margin="0, 0, 10, 0"
                     Padding="5"
@@ -322,15 +324,19 @@
                     MaxHeight="55"
                     Content="Edytuj wybrany"
                     FontSize="20"
+                    Click="AddQuiz_ButtonClick"
+                    CommandParameter="Modify"
                     />
 
                 <Button
+                    Name="DeleteButton"
                     Grid.Column="1"
                     Padding="5"
                     HorizontalAlignment="Center"
                     MaxHeight="55"
                     Content="Usuń wybrany"
                     FontSize="20"
+                    Click="DeleteQuiz_ButtonClick"
                     />
             </StackPanel>
 
