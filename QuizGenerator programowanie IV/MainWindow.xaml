@@ -300,12 +300,13 @@
                 />
 
             <ListBox 
+                Name="QuizListBox"
                 Grid.Row="1"
                 Padding="10"
                 FontSize="20"
                 Margin="10"
                 >
-                <ListBoxItem Content="Placeholder" />
+                
             </ListBox>
 
             <StackPanel 

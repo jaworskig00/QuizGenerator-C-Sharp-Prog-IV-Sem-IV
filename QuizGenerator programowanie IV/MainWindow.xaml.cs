@@ -22,7 +22,8 @@ namespace QuizGenerator_programowanie_IV
     public partial class MainWindow : Window
     {
         #region ZMIENNE
-
+        FileHandling fileHandle = new FileHandling();
+        List<Quiz> quizzes = new List<Quiz>();
         List<Answer> answers = new List<Answer>();
         List<Question> questions = new List<Question>();
         int questionIndex = 0;
@@ -32,6 +33,8 @@ namespace QuizGenerator_programowanie_IV
         public MainWindow()
         {
             InitializeComponent();
+
+            UpdateQuizListBox();
         }
 
         #region NAWIGACJA
@@ -126,8 +129,8 @@ namespace QuizGenerator_programowanie_IV
         #region ZAPIS QUIZU DO PLIKU
         private void SaveQuiz_ButtonClick(object sender, RoutedEventArgs e)
         {
-            FileHandling fileHandle = new FileHandling();
             fileHandle.SaveToFile(new Quiz(QuizName.Text, questions));
+            UpdateQuizListBox();
         }
 
         #endregion
@@ -156,6 +159,17 @@ namespace QuizGenerator_programowanie_IV
             else
             {
                 questions.Add(new Question(questionIndex, QuestionText.Text, Convert.ToInt32(QuestionTime.Text), answers));
+            }
+        }
+        
+        public void UpdateQuizListBox()
+        {
+            QuizListBox.Items.Clear();
+            quizzes.Clear();
+            quizzes = fileHandle.ReadFromFile();
+            foreach (Quiz quiz in quizzes)
+            {
+                QuizListBox.Items.Add(quiz.QuizName);
             }
         }
 
