@@ -184,7 +184,7 @@ namespace QuizGenerator_programowanie_IV
 
         private void DeleteQuiz_ButtonClick(object sender, RoutedEventArgs e)
         {
-            string[] fileToDelete = Directory.GetFiles("C:\\Users\\2000g\\OneDrive\\Pulpit\\QUIZY\\", $"{quizzes[QuizListBox.SelectedIndex].QuizName}.txt");
+            string[] fileToDelete = Directory.GetFiles("C:\\Users\\Kiepson\\Desktop\\QUIZY\\", $"{quizzes[QuizListBox.SelectedIndex].QuizName}.txt");
             if (fileToDelete.Length > 1 && fileToDelete.Length < 0)
             {
                 MessageBox.Show("We are having troubles...");
@@ -199,11 +199,13 @@ namespace QuizGenerator_programowanie_IV
         #region ZAPIS QUIZU DO PLIKU
         private void SaveQuiz_ButtonClick(object sender, RoutedEventArgs e)
         {
+
+            //System.Diagnostics.Process.Start("explorer.exe"); //otwiera eksplorator plików
             SaveQuestion();
 
-            if (previousLocation == "Modify")
+            if (previousLocation == "Modify" && !(quizOldName == QuizName.Text))
             {
-                File.Move(quizOldName, QuizName.Text);
+                File.Move("C:\\Users\\Kiepson\\Desktop\\QUIZY\\" + quizOldName + ".txt", "C:\\Users\\Kiepson\\Desktop\\QUIZY\\" + QuizName.Text + ".txt");
             }
 
             fileHandle.SaveToFile(new Quiz(QuizName.Text, questions));
