@@ -28,6 +28,8 @@ namespace QuizGenerator_programowanie_IV
         FileHandling fileHandle;
         CezarEncryption encryptionHanlde;
 
+        string userDocumentsPath;
+
         string previousLocation;
         string quizOldName;
 
@@ -35,6 +37,8 @@ namespace QuizGenerator_programowanie_IV
         List<Answer> answers;
         List<Question> questions;
         int questionIndex;
+
+        string xd;
 
         #endregion
 
@@ -45,6 +49,8 @@ namespace QuizGenerator_programowanie_IV
             fileHandle = new FileHandling();
             encryptionHanlde = new CezarEncryption();
 
+            userDocumentsPath = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
             previousLocation = "";
             quizOldName = "";
 
@@ -53,6 +59,11 @@ namespace QuizGenerator_programowanie_IV
             questions = new List<Question>();
             questionIndex = 0;
 
+            if (!Directory.Exists($"{userDocumentsPath}\\QUIZY"))
+            {
+                Directory.CreateDirectory($"{userDocumentsPath}\\QUIZY");
+            }
+
             UpdateQuizListBox();
         }
 
@@ -60,6 +71,7 @@ namespace QuizGenerator_programowanie_IV
         // 1. Menu View
         private void AddQuiz_ButtonClick(object sender, RoutedEventArgs e)
         {
+            Console.WriteLine(xd);
             MenuView.Visibility = Visibility.Collapsed;
             AddView.Visibility = Visibility.Visible;
             ModifyView.Visibility = Visibility.Collapsed;
@@ -193,7 +205,7 @@ namespace QuizGenerator_programowanie_IV
 
         private void DeleteQuiz_ButtonClick(object sender, RoutedEventArgs e)
         {
-            string[] fileToDelete = Directory.GetFiles("C:\\Users\\Kiepson\\Desktop\\QUIZY\\", $"{quizzes[QuizListBox.SelectedIndex].QuizName}.txt");
+            string[] fileToDelete = Directory.GetFiles($"{ userDocumentsPath}\\QUIZY", $"{quizzes[QuizListBox.SelectedIndex].QuizName}.json");
             if (fileToDelete.Length > 1 && fileToDelete.Length < 0)
             {
                 MessageBox.Show("We are having troubles...");
@@ -222,7 +234,7 @@ namespace QuizGenerator_programowanie_IV
 
             if (previousLocation == "Modify" && !(quizOldName == QuizName.Text))
             {
-                File.Move("C:\\Users\\Kiepson\\Desktop\\QUIZY\\" + quizOldName + ".txt", "C:\\Users\\Kiepson\\Desktop\\QUIZY\\" + QuizName.Text + ".txt");
+                File.Move($"{userDocumentsPath}\\QUIZY" + quizOldName + ".txt", $"{userDocumentsPath}\\QUIZY" + QuizName.Text + ".json");
             }
 
             fileHandle.SaveToFile(new Quiz(QuizName.Text, questions));
