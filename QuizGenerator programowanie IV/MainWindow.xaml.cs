@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using QuizGenerator_programowanie_IV.Modules;
+using System.Text.RegularExpressions;
 
 namespace QuizGenerator_programowanie_IV
 {
@@ -283,6 +284,11 @@ namespace QuizGenerator_programowanie_IV
             }
         }
 
-        #endregion
+        private void QuestionTime_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            QuestionTime.Text = Regex.Replace(Regex.Replace(QuestionTime.Text, "[^0-9]", string.Empty), @"\s+", " ").Trim(' ');
+        }
+
+        #endregion        
     }
 }

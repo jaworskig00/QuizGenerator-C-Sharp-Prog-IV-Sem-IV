@@ -218,11 +218,13 @@
                     Margin="0,0,10,0"/>
                 <TextBox
                     Name="QuestionTime"
+               
+                    MaxLength="3"
                     MaxWidth="100"
                     Text="10"
                     FontSize="20"
                     HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
+                    VerticalAlignment="Center" TextChanged="QuestionTime_TextChanged" 
                     />
             </StackPanel>
 
