@@ -126,6 +126,14 @@ namespace QuizGenerator_programowanie_IV
 
         private void NextQuestion_ButtonClick(object sender, RoutedEventArgs e)
         {
+            if (IsRightA.IsChecked == false &&
+                   IsRightB.IsChecked == false &&
+                   IsRightC.IsChecked == false &&
+                   IsRightD.IsChecked == false)
+            {
+                System.Windows.MessageBox.Show("Proszę wybrać chociaż jedną poprawną odpowiedz");
+                return;
+            }
             // funckja zapisująca wprowadzone dane pytanie przed "zmieniemiem strony"
 
             SaveQuestion();
@@ -200,8 +208,16 @@ namespace QuizGenerator_programowanie_IV
         #region ZAPIS QUIZU DO PLIKU
         private void SaveQuiz_ButtonClick(object sender, RoutedEventArgs e)
         {
+            if (IsRightA.IsChecked == false &&
+                   IsRightB.IsChecked == false &&
+                   IsRightC.IsChecked == false &&
+                   IsRightD.IsChecked == false)
+            {
+                System.Windows.MessageBox.Show("Proszę wybrać chociaż jedną poprawną odpowiedz");
+                return;
+            }
 
-            //System.Diagnostics.Process.Start("explorer.exe"); //otwiera eksplorator plików
+            
             SaveQuestion();
 
             if (previousLocation == "Modify" && !(quizOldName == QuizName.Text))
