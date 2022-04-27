@@ -146,6 +146,11 @@ namespace QuizGenerator_programowanie_IV
                 System.Windows.MessageBox.Show("Proszę wybrać chociaż jedną poprawną odpowiedz");
                 return;
             }
+            if (Convert.ToInt32(QuestionTime.Text) < 10)
+            {
+                System.Windows.MessageBox.Show("Minimalny czas na pytanie to 10 sekund");
+                return;
+            }
             // funckja zapisująca wprowadzone dane pytanie przed "zmieniemiem strony"
 
             SaveQuestion();
@@ -228,8 +233,12 @@ namespace QuizGenerator_programowanie_IV
                 System.Windows.MessageBox.Show("Proszę wybrać chociaż jedną poprawną odpowiedz");
                 return;
             }
+            if (Convert.ToInt32(QuestionTime.Text) < 10)
+            {
+                System.Windows.MessageBox.Show("Minimalny czas na pytanie to 10 sekund");
+                return;
+            }
 
-            
             SaveQuestion();
 
             if (previousLocation == "Modify" && !(quizOldName == QuizName.Text))
@@ -263,6 +272,12 @@ namespace QuizGenerator_programowanie_IV
 
             if (ifPreviousQuestionExists)
             {
+                if (QuestionText.Text == "")
+                {
+                    questions.Remove(questions[questionIndex]);
+                    return;
+                }
+
                 questions[questionIndex] = new Question(questionIndex, QuestionText.Text, Convert.ToInt32(QuestionTime.Text), answers);
             }
             else
